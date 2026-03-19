@@ -4,7 +4,7 @@ import {
   deleteNote,
   getAllNotes,
   updateNote,
-} from "../controller/NoteController.js";
+} from "../controller/noteController.js";
 import Note from "../model/noteSchema.js";
 import authUser from "../middleware/authUser.js";
 
