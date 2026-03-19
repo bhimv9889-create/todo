@@ -6,7 +6,7 @@ import notesRouter from "./router/noteRouter.js";
 import authUser from "./middleware/authUser.js";
 import userRouter from "./router/userRoutes.js";
 
-dotenv.config();
+dotenv.config({ path: "./BackEnd/.env" });
 
 const app = express();
 const port = process.env.PORT || 8000;
