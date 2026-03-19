@@ -1,10 +1,14 @@
 
 import React, { useState } from "react";
 import './Auth.css'
+import { GoogleLogin } from "@react-oauth/google"
+import { jwtDecode } from "jwt-decode"
+import { useNavigate } from "react-router-dom";
 
 export default function LoginAuth({ setIsLoggedIn }) {
     const [rightPanel, setRightPanel] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate()
 
     const [form, setForm] = useState({
         name: "",
@@ -49,6 +53,7 @@ export default function LoginAuth({ setIsLoggedIn }) {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("username", data.user.username);
                 setIsLoggedIn(true);
+                navigate("/")
             } else {
 
                 setRightPanel(false);
@@ -57,6 +62,9 @@ export default function LoginAuth({ setIsLoggedIn }) {
             setError(err.message);
         }
     };
+
+
+
 
     return (
         <div className="auth-page">
@@ -97,6 +105,10 @@ export default function LoginAuth({ setIsLoggedIn }) {
                         />
 
                         <button type="submit">Register</button>
+                        <p className="auth-link">
+                            Already have an account?{" "}
+                            <span onClick={() => setRightPanel(false)}>Login</span>
+                        </p>
                     </form>
                 </div>
 
@@ -121,6 +133,10 @@ export default function LoginAuth({ setIsLoggedIn }) {
                         />
 
                         <button type="submit">Login</button>
+                        <p className="auth-link">
+                            Don't have an account?{" "}
+                            <span onClick={() => setRightPanel(true)}>Register</span>
+                        </p>
                     </form>
                 </div>
 
@@ -137,6 +153,30 @@ export default function LoginAuth({ setIsLoggedIn }) {
                             >
                                 Login
                             </button>
+                            <div className="google-login">
+                                <GoogleLogin
+                                    onSuccess={async (credentialResponse) => {
+
+                                        const decoded = jwtDecode(credentialResponse.credential)
+
+                                        const res = await fetch("http://localhost:8000/api/users/google-login", {
+                                            method: "POST",
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify(decoded)
+                                        })
+
+                                        const data = await res.json()
+
+
+                                        localStorage.setItem("token", data.token)
+                                        localStorage.setItem("username", data.name)
+
+                                        setIsLoggedIn(true)
+                                    }}
+                                />
+                            </div>
                         </div>
 
                         <div className="overlay-panel overlay-right">
@@ -148,6 +188,31 @@ export default function LoginAuth({ setIsLoggedIn }) {
                             >
                                 Register
                             </button>
+                            <div className="google-login">
+                                <GoogleLogin
+
+                                    onSuccess={async (credentialResponse) => {
+
+                                        const decoded = jwtDecode(credentialResponse.credential)
+
+                                        const res = await fetch("http://localhost:8000/api/users/google-login", {
+                                            method: "POST",
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify(decoded)
+                                        })
+
+                                        const data = await res.json()
+
+
+                                        localStorage.setItem("token", data.token)
+                                        localStorage.setItem("username", data.name)
+
+                                        setIsLoggedIn(true)
+                                    }}
+                                />
+                            </div>
                         </div>
 
                     </div>

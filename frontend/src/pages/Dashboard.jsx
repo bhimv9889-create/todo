@@ -54,24 +54,36 @@ export default function Dashboard({ setIsLoggedIn }) {
     }
   };
 
+
+
   useEffect(() => {
     const name = localStorage.getItem("username");
     if (name) {
       setUsername(name);
     }
+
     const token = localStorage.getItem("token");
-    if (token) {
-      const decode = jwtDecode(token)
-      setUser(decode)
-    }
+
     if (!token) {
       setIsLoggedIn(false);
       return;
     }
 
-    getNotes();
-  }, [noteSaved]);
+    try {
+      const decoded = jwtDecode(token);
+      setUser(decoded);
+      getNotes();
 
+    } catch (error) {
+      console.log(`${error}:Invalid token`);
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      setIsLoggedIn(false);
+      return;
+    }
+
+
+  }, [noteSaved]);
 
 
   const pinnedNotes = notes.filter((n) => n.pinned);
@@ -108,11 +120,11 @@ export default function Dashboard({ setIsLoggedIn }) {
               open={Boolean(profile)}
               onClose={() => setProfile(null)}
             >
-              {user && (
-                <>
-                  <MenuItem sx={{ textDecoration: "underline" }}>{user.email}</MenuItem>
-                </>
-              )}
+              {user && [
+                <MenuItem key="email" sx={{ textDecoration: "underline" }}>
+                  {user.email}
+                </MenuItem>
+              ]}
               <MenuItem
                 onClick={() => {
                   setProfile(null);

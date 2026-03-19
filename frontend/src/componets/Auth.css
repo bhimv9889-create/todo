@@ -176,35 +176,9 @@ input:focus {
 .overlay-right {
   right: 0;
 }
-@media (max-width: 768px) {
-  .container {
-    width: 95%;
-    min-height: 600px;
-  }
 
-  .form-container {
-    width: 100%;
-    position: relative;
-  }
+/* ===================== AUTH PAGE ===================== */
 
-  .sign-in-container,
-  .sign-up-container {
-    width: 100%;
-    left: 0;
-  }
-
-  .overlay-container {
-    display: none; /* hide sliding overlay on mobile */
-  }
-
-  form {
-    padding: 20px;
-  }
-
-  button {
-    width: 100%;
-  }
-}
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -212,4 +186,91 @@ input:focus {
   align-items: center;
   background: #dcc3f5;
   font-family: "Montserrat", sans-serif;
+}
+
+/* ===================== AUTH LINK ===================== */
+
+/* Hidden on desktop — only shows on mobile */
+.auth-link {
+  display: none;
+}
+
+.auth-link span {
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #6d76f1;
+  font-size: 13px;
+}
+
+.auth-link span:hover {
+  color: #545de8;
+}
+
+/* ===================== MOBILE: max 768px ===================== */
+
+@media (max-width: 768px) {
+  /* Container stacks vertically */
+  .container {
+    width: 95%;
+    min-height: auto;
+    overflow: visible; /* FIX: was hidden, clipping content */
+  }
+
+  /* Hide overlay panel — not needed on mobile */
+  .overlay-container {
+    display: none;
+  }
+
+  /* Stack forms on top of each other */
+  .form-container {
+    position: relative; /* FIX: was absolute, causing overlap */
+    width: 100%;
+    top: auto;
+    height: auto;
+    opacity: 1 !important;
+    transform: none !important;
+    z-index: 1 !important;
+  }
+
+  .sign-in-container,
+  .sign-up-container {
+    width: 100%;
+    left: 0;
+    display: block;
+  }
+
+  /* Hide sign-up by default on mobile */
+  .sign-up-container {
+    display: none;
+  }
+
+  /* Show sign-up when right panel is active */
+  .container.right-panel-active .sign-up-container {
+    display: block;
+  }
+
+  /* Hide sign-in when right panel is active */
+  .container.right-panel-active .sign-in-container {
+    display: none;
+  }
+
+  form {
+    padding: 30px 20px;
+    height: auto;
+    min-height: 400px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  /* Auth link visible on mobile only */
+  .auth-link {
+    display: block;
+    margin-top: 16px;
+    font-size: 13px;
+    color: #555;
+    text-align: center;
+  }
 }
