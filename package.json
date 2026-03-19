@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "nodemon BackEnd/server.js && npm FrontEnd/vite && npm run dev"
+    "start": "node BackEnd/server.js",
+    "dev": "nodemon BackEnd/server.js"
   },
   "keywords": [],
   "author": "",
