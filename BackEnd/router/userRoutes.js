@@ -28,6 +28,47 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.post("/google-login", async (req, res) => {
+  try {
+    const { email, name, picture } = req.body;
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      const randomPassword = Math.random().toString(36);
+      const hashedPassword = await bcrypt.hash(randomPassword, 12);
+
+      user = new User({
+        name,
+        email,
+        username: email.split("@")[0],
+        password: hashedPassword,
+        profilePic: picture,
+      });
+
+      await user.save();
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        username: user.username,
+        role: user.role,
+        email: user.email,
+      },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "30d" },
+    );
+
+    res.json({
+      token,
+      name: user.username,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
