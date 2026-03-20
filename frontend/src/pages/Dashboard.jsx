@@ -32,7 +32,7 @@ export default function Dashboard({ setIsLoggedIn }) {
         return;
       }
 
-      const res = await fetch("http://https://todo-production-47f2.up.railway.app/api/notes", {
+      const res = await fetch("https://todo-production-47f2.up.railway.app/api/notes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
