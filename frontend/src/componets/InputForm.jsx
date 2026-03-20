@@ -36,7 +36,7 @@ export default function InputForm({ setNoteSaved, noteForUpdate, setNoteForUpdat
 
         if (noteForUpdate?._id) {
 
-            await fetch(`http://localhost:8000/api/notes/${noteForUpdate._id}`, {
+            await fetch(`http://https://todo-production-47f2.up.railway.app/api/notes/${noteForUpdate._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -46,7 +46,7 @@ export default function InputForm({ setNoteSaved, noteForUpdate, setNoteForUpdat
             });
         } else {
 
-            const res = await fetch("http://localhost:8000/api/notes", {
+            const res = await fetch("http://https://todo-production-47f2.up.railway.app/api/notes", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

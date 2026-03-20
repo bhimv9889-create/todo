@@ -15,7 +15,7 @@ export default function BasicCard({ title = "Title", content = "Content", color,
 
   const deleteNote = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch(`http://localhost:8000/api/notes/${_id}`, {
+    const res = await fetch(`http://https://todo-production-47f2.up.railway.app/api/notes/${_id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -27,7 +27,7 @@ export default function BasicCard({ title = "Title", content = "Content", color,
   }
   const pinTask = async () => {
     const token = localStorage.getItem("token");
-    await fetch(`http://localhost:8000/api/notes/${_id}/pin`, {
+    await fetch(`http://https://todo-production-47f2.up.railway.app/api/notes/${_id}/pin`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
