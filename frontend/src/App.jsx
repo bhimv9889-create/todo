@@ -1,10 +1,10 @@
-
 import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
 import Dashboard from "./pages/Dashboard"
 import Auth from "./componets/Auth"
 import Footer from "./componets/Footer"
+import FrontScreen from './componets/FrontScreen'
 import { useState } from "react"
 
 function App() {
@@ -13,11 +13,15 @@ function App() {
     !!localStorage.getItem("token")
   );
 
+  const [showSplash, setShowSplash] = useState(true);
+
+  if (showSplash) {
+    return <FrontScreen onFinish={() => setShowSplash(false)} />;
+  }
+
   return (
     <BrowserRouter>
-
       <Routes>
-
         <Route
           path="/"
           element={
@@ -27,7 +31,6 @@ function App() {
               <Navigate to="/login" />
           }
         />
-
         <Route
           path="/login"
           element={
@@ -37,11 +40,8 @@ function App() {
               <Navigate to="/" />
           }
         />
-
       </Routes>
-
       <Footer />
-
     </BrowserRouter>
   );
 }
